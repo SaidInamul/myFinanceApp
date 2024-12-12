@@ -5,6 +5,8 @@
   import transactionList from './components/transaction-list.vue'
   import addTransaction from './components/add-transaction.vue'
   import { ref, computed } from 'vue'
+  import { useToast } from 'vue-toastification'
+
 
   const transactions = ref([
     {id : 1, name : 'Rental', price : -500},
@@ -12,6 +14,7 @@
     {id : 3, name : 'PayCheck', price : 3000},
     {id : 4, name : 'Telco', price : -50},
   ])
+  const toast = useToast()
 
   // Get total
   const total = computed( () => {
@@ -43,15 +46,33 @@
     }, 0)
     .toFixed(2))
   })
+
+  // Add new transaction
+  const handleTransactionSubmitted = (transactionData) => {
+    transactions.value.push({
+      id : crypto.randomUUID(),
+      price : transactionData.price,
+      name : transactionData.text
+    })
+
+    toast.success('New transaction has been added')
+  }
+
+  // Delete transaction
+  const handleDeleteTransaction = (id) => {
+    transactions.value = transactions.value.filter((transaction) => transaction.id !== id)
+
+    toast.success('The transaction is deleted')
+  }
 </script>
 
 <template>
     <Header />
     <div class="container">
-      <Balance :total="total"/>
+      <Balance :total="+total"/>
       <incomeExpenses :income="income" :expenses="expenses"/>
-      <transactionList :transactions="transactions"/>
-      <addTransaction />
+      <transactionList :transactions="transactions" @deleteTransaction="handleDeleteTransaction"/>
+      <addTransaction @transactionSubmitted="handleTransactionSubmitted"/>
     </div>
     
 </template>

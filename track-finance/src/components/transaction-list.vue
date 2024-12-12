@@ -7,6 +7,16 @@
             required : true
         }
     })
+
+    const emit = defineEmits([
+        'deleteTransaction'
+    ])
+    
+    const deleteTransaction = (id) => {
+        emit('deleteTransaction', id)
+    }
+
+
 </script>
 
 <template>
@@ -17,7 +27,7 @@
             :class="transaction.price < 0 ? 'minus' : 'plus'">
             {{ transaction.name }} 
             <span>${{ transaction.price }}</span>
-            <button class="delete-btn">x</button>
+            <button @click="deleteTransaction(transaction.id)" class="delete-btn">x</button>
         </li>
       </ul>
 </template>
