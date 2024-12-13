@@ -4,17 +4,19 @@
   import incomeExpenses from './components/income-expenses.vue'
   import transactionList from './components/transaction-list.vue'
   import addTransaction from './components/add-transaction.vue'
-  import { ref, computed } from 'vue'
+  import { ref, computed, onMounted } from 'vue'
   import { useToast } from 'vue-toastification'
 
 
-  const transactions = ref([
-    {id : 1, name : 'Rental', price : -500},
-    {id : 2, name : 'Food', price : -1000},
-    {id : 3, name : 'PayCheck', price : 3000},
-    {id : 4, name : 'Telco', price : -50},
-  ])
+  const transactions = ref([])
   const toast = useToast()
+  
+  onMounted(() => {
+    const savedTransactions = JSON.parse(localStorage.getItem('transactions'))
+    if (savedTransactions) {
+      transactions.value = savedTransactions
+    }
+  })
 
   // Get total
   const total = computed( () => {
@@ -54,15 +56,25 @@
       price : transactionData.price,
       name : transactionData.text
     })
-
+    saveIntoLocalStorage(0)
     toast.success('New transaction has been added')
   }
 
   // Delete transaction
   const handleDeleteTransaction = (id) => {
     transactions.value = transactions.value.filter((transaction) => transaction.id !== id)
-
+    saveIntoLocalStorage()
     toast.success('The transaction is deleted')
+  }
+
+  // edit transaction
+  const handleEditTransaction = (id) => {
+    console.log(id);
+  }
+
+  // Save to local storage
+  const saveIntoLocalStorage = () => {
+    localStorage.setItem('transactions', JSON.stringify(transactions.value))
   }
 </script>
 
@@ -71,7 +83,7 @@
     <div class="container">
       <Balance :total="+total"/>
       <incomeExpenses :income="income" :expenses="expenses"/>
-      <transactionList :transactions="transactions" @deleteTransaction="handleDeleteTransaction"/>
+      <transactionList :transactions="transactions" @deleteTransaction="handleDeleteTransaction" @editTransaction="handleEditTransaction"/>
       <addTransaction @transactionSubmitted="handleTransactionSubmitted"/>
     </div>
     
