@@ -27,3 +27,8 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## Example (Pictures)
+
+<img width="1440" alt="Screenshot 2024-12-13 at 5 58 23 PM" src="https://github.com/user-attachments/assets/816f09b6-4db7-42c7-8f6c-4cd35cf472c8" />
+<img width="1440" alt="Screenshot 2024-12-13 at 5 58 43 PM" src="https://github.com/user-attachments/assets/829b6513-f978-44a6-b4d1-9494bd2df76b" />
