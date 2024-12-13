@@ -56,7 +56,7 @@
     </ul>
 
     <!-- Edit Modal -->
-    <teleport to="body">
+    <teleport to="#modal">
         <div v-if="showEditModal" class="modal-overlay" @click="closeModal">
             <div class="modal-content" @click.stop>
                 <h3 style="margin: 10px 0;">Edit Transaction</h3>
