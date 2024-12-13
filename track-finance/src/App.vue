@@ -68,8 +68,16 @@
   }
 
   // edit transaction
-  const handleEditTransaction = (id) => {
-    console.log(id);
+  const handleEditTransaction = (updatedTransaction) => {
+    const index = transactions.value.findIndex(
+      (transaction) => transaction.id === updatedTransaction.id
+    );
+    if (index !== -1) {
+      transactions.value[index] = updatedTransaction;
+    }
+    saveIntoLocalStorage()
+    toast.success('The transaction is updated')
+
   }
 
   // Save to local storage
